@@ -3,6 +3,8 @@ package com.fakecompany.micro.image.facade;
 
 
 import com.fakecompany.micro.image.dto.ImageDto;
+import com.fakecompany.micro.image.exception.ImageNotComeBodyException;
+import com.fakecompany.micro.image.exception.PersonJustOneImageException;
 import com.fakecompany.micro.image.mapper.ImageMapper;
 import com.fakecompany.micro.image.model.Image;
 import com.fakecompany.micro.image.service.ImageService;
@@ -12,6 +14,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+
+import static com.fakecompany.micro.image.util.ObjectTypeConverter.mappingImage;
+import static com.fakecompany.micro.image.util.OptionalFieldValidator.imageComeOnBody;
+
 @Service
 @Transactional
 public class ImageFacade {
@@ -25,19 +31,44 @@ public class ImageFacade {
     }
 
     public ImageDto createImage(ImageDto imageDto, MultipartFile imagePart){
+        //TODO validar en el micro person si existe la persona.
+
+        if(hasImage(imageDto.getPersonId())){
+            throw new PersonJustOneImageException("exception.person_just_one_image.image");
+        }
+
         imageDto.setImage(ObjectTypeConverter.image2Base64(imagePart));
         return imageMapper.toDto(imageService.createImage(imageMapper.toEntity(imageDto)));
     }
 
     public ImageDto editImage(ImageDto imageDto, MultipartFile imagePart){
-        Image imageEdit = imageService.findById(imageDto.getId());
-        imageEdit.setImage(ObjectTypeConverter.image2Base64(imagePart));
-        imageEdit.setPersonId(imageDto.getPersonId());
+        Image imageEdit =imageService.findById(imageDto.getId());
+        //TODO validar en el micro person si existe la persona.
 
-        ImageDto imageDtoEdit = imageMapper.toDto(imageService.editImage(imageEdit));
 
-        return imageDtoEdit;
+        if (!imagePart.isEmpty()){
+            //TODO comprobar que si tenga imagen en bd (restriccion es una persona una imagen)
+            if(hasImage(imageDto.getPersonId())){
+                if(imageComeOnBody(imageDto.getId())){
+
+                    imageEdit = mappingImage(imageDto.getId(), imageDto.getPersonId(), imagePart);
+                    imageEdit = imageService.editImage(imageEdit);
+                }else{
+                    throw new ImageNotComeBodyException("exception.not_come_body.image");
+                }
+            }else{
+                imageEdit = imageService.createImage(mappingImage(imageDto.getId(),imageDto.getPersonId(), imagePart));
+            }
+        }
+
+        return imageMapper.toDto(imageService.editImage(imageEdit));
+
     }
+
+    private boolean hasImage(Integer personId){
+        return !imageService.findByPersonId(personId).getImage().isEmpty();
+    }
+
 
     public void deleteImage(String imageId){
         imageService.deleteImage(imageId);

@@ -1,5 +1,6 @@
 package com.fakecompany.micro.image.util;
 
+import com.fakecompany.micro.image.model.Image;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -18,6 +19,17 @@ public class ObjectTypeConverter {
 
         return imageBase64;
     }
+
+
+    public static Image mappingImage(String imageId, Integer personId, MultipartFile imagePart){
+        Image image = new Image();
+        image.setId(imageId);
+        image.setImage(image2Base64(imagePart));
+        image.setPersonId(personId);
+        return image;
+    }
+
+
 
 
 

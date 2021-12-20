@@ -8,7 +8,7 @@ public class ImageDto {
 
     private String id;
     private String image;
-    @NotNull
+    @NotNull()
     private Integer personId;
 
 

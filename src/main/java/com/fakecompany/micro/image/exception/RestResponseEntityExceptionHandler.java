@@ -25,8 +25,17 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     private final Logger logger = LoggerFactory.getLogger(ResponseEntityExceptionHandler.class);
 
-    @ExceptionHandler(DataNotFoundException.class)
+    @ExceptionHandler({DataNotFoundException.class})
     public final ResponseEntity<StandardResponse> handleDataNotFound(HttpServletRequest request, DataNotFoundException ex){
+        logger.error(request.getRequestURL().toString(), ex);
+        return new ResponseEntity<>(new StandardResponse(
+                StandardResponse.StatusStandardResponse.ERROR,
+                ex.getMessage()),
+                HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({DataDuplicatedException.class})
+    public final ResponseEntity<StandardResponse> handleDataDucplicated(HttpServletRequest request, DataDuplicatedException ex){
         logger.error(request.getRequestURL().toString(), ex);
         return new ResponseEntity<>(new StandardResponse(
                 StandardResponse.StatusStandardResponse.ERROR,
@@ -36,6 +45,15 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
     @ExceptionHandler(ImageNotComeBodyException.class)
     public final ResponseEntity<StandardResponse> handleImageNotComeBody(HttpServletRequest request, ImageNotComeBodyException ex){
+        logger.error(request.getRequestURL().toString(), ex);
+        return new ResponseEntity<>(new StandardResponse(
+                StandardResponse.StatusStandardResponse.ERROR,
+                ex.getMessage()),
+                HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(PersonJustOneImageException.class)
+    public final ResponseEntity<StandardResponse> handlePersonJustOneImage(HttpServletRequest request, PersonJustOneImageException ex){
         logger.error(request.getRequestURL().toString(), ex);
         return new ResponseEntity<>(new StandardResponse(
                 StandardResponse.StatusStandardResponse.ERROR,
