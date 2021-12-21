@@ -19,7 +19,7 @@ call cmd/remove_image.bat
 
 echo.
 echo Step 4: Update jar
-call mvn clean install
+call .\mvnw clean install -DskipTests
 
 echo Step 5: Start application
 call cmd/build-docker.bat
