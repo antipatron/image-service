@@ -10,6 +10,9 @@ public class StandardResponse<T> {
     private String dateTime;
     private T body;
 
+    public StandardResponse() {
+    }
+
     public StandardResponse(StatusStandardResponse status, T body){
         this.status = status.getStatus();
         this.dateTime = new SimpleDateFormat(FORMTATO_FECHA_HORA).format(Calendar.getInstance().getTime());

@@ -1,7 +1,5 @@
 package com.fakecompany.micro.image.facade;
 
-
-
 import com.fakecompany.micro.image.dto.ImageDto;
 import com.fakecompany.micro.image.exception.ImageNotComeBodyException;
 import com.fakecompany.micro.image.exception.PersonJustOneImageException;
