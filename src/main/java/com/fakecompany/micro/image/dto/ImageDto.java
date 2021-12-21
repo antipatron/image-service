@@ -11,7 +11,6 @@ public class ImageDto {
     @NotNull()
     private Integer personId;
 
-
     public String getId() {
         return id;
     }
@@ -36,5 +35,12 @@ public class ImageDto {
         this.personId = personId;
     }
 
-
+    @Override
+    public String toString() {
+        return "ImageDto{" +
+                "id='" + id + '\'' +
+                ", image='" + image + '\'' +
+                ", personId=" + personId +
+                '}';
+    }
 }

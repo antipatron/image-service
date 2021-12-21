@@ -11,7 +11,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @RestController
 @RequestMapping("/image")
@@ -30,9 +33,11 @@ public class ImageController {
             @ApiResponse(code = 400, message = "La petición es inválida"),
             @ApiResponse(code = 500, message = "Error del servidor al procesar la respuesta"),
     })
-    public ResponseEntity<StandardResponse<ImageDto>> createImage(
-            @Valid @RequestPart("imageDto") ImageDto imageDto, @RequestPart MultipartFile image){
-        ImageDto imageDto1 = imageFacade.createImage(imageDto, image);
+    public ResponseEntity<StandardResponse<ImageDto>> createImage(@RequestPart("image") MultipartFile image,
+                                                                  @NotNull @RequestParam("personId") Integer personId){
+        System.out.println("LLEGA");
+        ImageDto imageDto1 = imageFacade.createImage(personId, image);
+        Logger.getGlobal().log(Level.INFO, imageDto1.toString());
 
         return ResponseEntity.ok(new StandardResponse<>(
                 StandardResponse.StatusStandardResponse.OK,

@@ -30,14 +30,15 @@ public class ImageFacade {
         this.imageMapper = imageMapper;
     }
 
-    public ImageDto createImage(ImageDto imageDto, MultipartFile imagePart){
+    public ImageDto createImage(Integer personId, MultipartFile imagePart){
         //TODO validar en el micro person si existe la persona.
-
-        if(hasImage(imageDto.getPersonId())){
+        ImageDto imageDto = new ImageDto();
+        if(hasImage(personId)){
             throw new PersonJustOneImageException("exception.person_just_one_image.image");
         }
 
         imageDto.setImage(ObjectTypeConverter.image2Base64(imagePart));
+        imageDto.setPersonId(personId);
         return imageMapper.toDto(imageService.createImage(imageMapper.toEntity(imageDto)));
     }
 
