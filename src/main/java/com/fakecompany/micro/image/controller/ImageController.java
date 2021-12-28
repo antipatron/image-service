@@ -1,6 +1,6 @@
 package com.fakecompany.micro.image.controller;
 
-import com.fakecompany.micro.image.dto.ImageDto;
+import com.fakecompany.common.dto.ImageDto;
 import com.fakecompany.micro.image.facade.ImageFacade;
 import com.fakecompany.micro.image.util.StandardResponse;
 import io.swagger.annotations.ApiOperation;

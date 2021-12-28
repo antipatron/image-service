@@ -1,10 +1,10 @@
 package com.fakecompany.micro.image.service;
 
 
-import com.fakecompany.micro.image.exception.DataConstraintViolationException;
-import com.fakecompany.micro.image.exception.DataDuplicatedException;
-import com.fakecompany.micro.image.exception.DataNotFoundException;
-import com.fakecompany.micro.image.exception.ObjectNoEncontradoException;
+import com.fakecompany.common.exception.DataConstraintViolationException;
+import com.fakecompany.common.exception.DataDuplicatedException;
+import com.fakecompany.common.exception.DataNotFoundException;
+import com.fakecompany.common.exception.ObjectNoEncontradoException;
 import com.fakecompany.micro.image.model.Image;
 import com.fakecompany.micro.image.model.ImageRepository;
 import org.springframework.dao.DataIntegrityViolationException;

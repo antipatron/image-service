@@ -1,6 +1,8 @@
 package com.fakecompany.micro.image.exception;
 
-public class PersonJustOneImageException extends GeneralRuntimeException{
+import com.fakecompany.common.exception.GeneralRuntimeException;
+
+public class PersonJustOneImageException extends GeneralRuntimeException {
 
     private static final long serialVersionUID = 1L;
 

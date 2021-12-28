@@ -1,5 +1,6 @@
 package com.fakecompany.micro.image.exception;
 
+import com.fakecompany.common.exception.*;
 import com.fakecompany.micro.image.util.StandardResponse;
 import com.google.common.base.Joiner;
 import org.slf4j.Logger;

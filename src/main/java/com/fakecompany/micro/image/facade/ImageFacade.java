@@ -1,19 +1,14 @@
 package com.fakecompany.micro.image.facade;
 
-import com.fakecompany.micro.image.dto.ImageDto;
-import com.fakecompany.micro.image.exception.ImageNotComeBodyException;
+import com.fakecompany.common.dto.ImageDto;
 import com.fakecompany.micro.image.exception.PersonJustOneImageException;
 import com.fakecompany.micro.image.mapper.ImageMapper;
-import com.fakecompany.micro.image.model.Image;
 import com.fakecompany.micro.image.service.ImageService;
-import com.fakecompany.micro.image.util.ObjectTypeConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-
-import static com.fakecompany.micro.image.util.OptionalFieldValidator.imageComeOnBody;
 
 @Service
 @Transactional
@@ -33,7 +28,7 @@ public class ImageFacade {
         if(hasImage(personId)){
             throw new PersonJustOneImageException("exception.person_just_one_image.image");
         }
-        imageDto.setImageUrl(ObjectTypeConverter.image2Base64(imagePart));
+        imageDto.setImageUrl((imagePart.getName()));//TODO reparar
         imageDto.setPersonId(personId);
         return imageMapper.toDto(imageService.createImage(imageMapper.toEntity(imageDto)));
     }
