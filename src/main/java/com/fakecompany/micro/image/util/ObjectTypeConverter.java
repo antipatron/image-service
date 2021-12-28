@@ -21,13 +21,7 @@ public class ObjectTypeConverter {
     }
 
 
-    public static Image mappingImage(String imageId, Integer personId, MultipartFile imagePart){
-        Image image = new Image();
-        image.setId(imageId);
-        image.setImage(image2Base64(imagePart));
-        image.setPersonId(personId);
-        return image;
-    }
+
 
 
 

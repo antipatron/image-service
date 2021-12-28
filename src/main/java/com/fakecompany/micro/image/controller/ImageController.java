@@ -26,8 +26,8 @@ public class ImageController {
         this.imageFacade = imageFacade;
     }
 
-    @PostMapping
-    @ApiOperation(value = "Save image", response = ImageDto.class)
+    @PostMapping("/save-with-multipart")
+    @ApiOperation(value = "Save image with multipart", response = ImageDto.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "La petición fue procesada con éxito"),
             @ApiResponse(code = 400, message = "La petición es inválida"),
@@ -35,13 +35,45 @@ public class ImageController {
     })
     public ResponseEntity<StandardResponse<ImageDto>> createImage(@RequestPart("image") MultipartFile image,
                                                                   @NotNull @RequestParam("personId") Integer personId){
-        System.out.println("LLEGA");
         ImageDto imageDto1 = imageFacade.createImage(personId, image);
         Logger.getGlobal().log(Level.INFO, imageDto1.toString());
 
         return ResponseEntity.ok(new StandardResponse<>(
                 StandardResponse.StatusStandardResponse.OK,
                 "image.create.ok",
+                imageDto1));
+    }
+
+    @PostMapping
+    @ApiOperation(value = "Save image", response = ImageDto.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "La petición fue procesada con éxito"),
+            @ApiResponse(code = 400, message = "La petición es inválida"),
+            @ApiResponse(code = 500, message = "Error del servidor al procesar la respuesta"),
+    })
+    public ResponseEntity<StandardResponse<ImageDto>> createImageNoMultipart(@RequestBody ImageDto imageDto){
+        ImageDto imageDto1 = imageFacade.createImage(imageDto);
+        Logger.getGlobal().log(Level.INFO, imageDto1.toString());
+
+        return ResponseEntity.ok(new StandardResponse<>(
+                StandardResponse.StatusStandardResponse.OK,
+                "image.create.ok",
+                imageDto1));
+    }
+
+    @PutMapping("/edit-with-multipart")
+    @ApiOperation(value = "Edit image", response = ImageDto.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "La petición fue procesada con éxito"),
+            @ApiResponse(code = 400, message = "La petición es inválida"),
+            @ApiResponse(code = 500, message = "Error del servidor al procesar la respuesta"),
+    })
+    public ResponseEntity<StandardResponse<ImageDto>> editImage(
+            @Valid @RequestPart("imageDto") ImageDto imageDto, @RequestPart MultipartFile image){
+        ImageDto imageDto1 = null;//imageFacade.editImage(imageDto, image);
+        return ResponseEntity.ok(new StandardResponse<>(
+                StandardResponse.StatusStandardResponse.OK,
+                "image.edit.ok",
                 imageDto1));
     }
 
@@ -52,9 +84,8 @@ public class ImageController {
             @ApiResponse(code = 400, message = "La petición es inválida"),
             @ApiResponse(code = 500, message = "Error del servidor al procesar la respuesta"),
     })
-    public ResponseEntity<StandardResponse<ImageDto>> editImage(
-            @Valid @RequestPart("imageDto") ImageDto imageDto, @RequestPart MultipartFile image){
-        ImageDto imageDto1 = imageFacade.editImage(imageDto, image);
+    public ResponseEntity<StandardResponse<ImageDto>> editImageNoMultipart(@RequestBody ImageDto imageDto){
+        ImageDto imageDto1 = imageFacade.editImage(imageDto);
         return ResponseEntity.ok(new StandardResponse<>(
                 StandardResponse.StatusStandardResponse.OK,
                 "image.edit.ok",
@@ -89,6 +120,21 @@ public class ImageController {
         return ResponseEntity.ok(new StandardResponse<>(
                 StandardResponse.StatusStandardResponse.OK,
                 imageDtoList));
+    }
+
+    @GetMapping("/get-by-id")
+    @ApiOperation(value = "Get by id", response = ImageDto.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "La petición fue procesada con éxito"),
+            @ApiResponse(code = 400, message = "La petición es inválida"),
+            @ApiResponse(code = 500, message = "Error del servidor al procesar la respuesta"),
+    })
+    public ResponseEntity<StandardResponse<ImageDto>> findByPersonId(@RequestParam("personId") Integer personId){
+
+        ImageDto imageDto = imageFacade.findByPersonId(personId);
+        return ResponseEntity.ok(new StandardResponse<>(
+                StandardResponse.StatusStandardResponse.OK,
+                imageDto));
     }
 
 }

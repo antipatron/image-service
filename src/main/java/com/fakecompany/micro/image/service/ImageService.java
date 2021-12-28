@@ -72,7 +72,7 @@ public class ImageService {
             throw new ObjectNoEncontradoException("exception.objeto_no_encontrado");
         }
         Image imageTemp = new Image();
-        imageTemp.setImage("");
+        imageTemp.setImageUrl("");
         return imageRepository.findByPersonId(personId).orElse(imageTemp);
 
     }
