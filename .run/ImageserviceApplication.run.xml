@@ -5,7 +5,7 @@
     <option name="ALTERNATIVE_JRE_PATH" />
     <option name="SHORTEN_COMMAND_LINE" value="NONE" />
     <envs>
-      <env name="MONGO_PASSWORD" value="M0ng02021*" />
+      <env name="MONGO_PASSWORD" value="N0tM0ng02022P4ssw0rd" />
     </envs>
     <method v="2">
       <option name="Make" enabled="true" />
